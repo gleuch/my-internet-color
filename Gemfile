@@ -29,7 +29,7 @@ gem 'friendly_id',              '5.0.4'
 # gem 'therubyracer',             '0.12.1'
 
 # Other Helpers ---------------------------------------------------------------
-gem 'addressable',              '2.3.6'
+gem 'addressabler',             '0.1.1',      git: 'https://github.com/gleuch/addressabler.git'
 gem 'geocoder',                 '1.2.4'
 
 # API Intgrations -------------------------------------------------------------
