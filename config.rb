@@ -1,5 +1,18 @@
 # encoding: UTF-8
 
+#
+# My Internet Color
+# a piece by @gleuch <http://gleu.ch>
+# (c)2014, all rights reserved
+#
+# -----------------------------------------------------------------------------
+#
+# Config core
+# - all the goodness of the core config
+#
+#
+
+
 Encoding.default_external = "UTF-8"
 Encoding.default_internal = "UTF-8"
 
@@ -15,7 +28,7 @@ CRAWLER_USER_AGENT = "WhatColor.IsTheInter.net/#{CRAWLER_VERSION} (http://whatco
 
 
 # REQUIRE MODULES/GEMS
-  %w{active_record active_support/all addressabler color friendly_id geocoder json mysql2 paperclip sidekiq webshot yaml}.each{|r| require r}
+%w{active_record active_support/all addressabler color friendly_id geocoder json mysql2 paperclip sidekiq webshot yaml}.each{|r| require r}
 
 # INITIALIZERS
 Dir.glob("#{APP_ROOT}/initializers/*.rb").each{|r| require r}

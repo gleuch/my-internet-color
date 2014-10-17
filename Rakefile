@@ -7,6 +7,8 @@ require './config.rb'
 Dir.glob("#{APP_ROOT}/models/*.rb").each{|r| require r}
 
 
+# NB: samples from an earlier @gleuch/@xolator project, likely something else out there that is better
+
 namespace :db do
   task :environment do
     MIGRATIONS_DIR = ENV['MIGRATIONS_DIR'] || 'db/migrate'

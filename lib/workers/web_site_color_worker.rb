@@ -1,3 +1,16 @@
+#
+# My Internet Color
+# a piece by @gleuch <http://gleu.ch>
+# (c)2014, all rights reserved
+#
+# -----------------------------------------------------------------------------
+#
+# Web Site Color Worker, for Sidekiq
+# - takes screenshot of web site url, determined singular pixel color
+#
+#
+
+
 class WebSiteColorWorker
 
   include Sidekiq::Worker

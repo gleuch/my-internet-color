@@ -1,3 +1,16 @@
+#
+# My Internet Color
+# a piece by @gleuch <http://gleu.ch>
+# (c)2014, all rights reserved
+#
+# -----------------------------------------------------------------------------
+#
+# Web Site Locate Worker, for Sidekiq
+# - domain name ip address lookup, get geo info for ip address
+#
+#
+
+
 class WebSiteLocateWorker
 
   include Sidekiq::Worker
