@@ -12,6 +12,9 @@ class CreateWebSites < ActiveRecord::Migration
 
       # Color info
       t.string      :hex_color
+      t.decimal     :rgb_color_red
+      t.decimal     :rgb_color_green
+      t.decimal     :rgb_color_blue
 
       # Location info
       t.integer     :web_site_location_id

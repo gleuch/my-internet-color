@@ -39,10 +39,18 @@ class WebSite < ActiveRecord::Base
 
   # Class Methods -------------------------------------------------------------
 
+  def self.color_avg(v); where("#{v} IS NOT NULL").average(v).to_f; end
+  def self.avg_hex_color; ("%02x%02x%02x" % avg_rgb_color).upcase; end
+  def self.avg_rgb_color; [color_avg(:rgb_color_red), color_avg(:rgb_color_green), color_avg(:rgb_color_blue)]; end
+
 
   # Methods -------------------------------------------------------------------
 
   def uri; @@uri ||= Addressable::URI.parse(self.url); end
+
+  def rgb_color; [self.rgb_color_red, self.rgb_color_green, self.rgb_color_blue]; end
+
+  def tmp_filename(ext=:png); [self.uuid, ext].join('.'); end
 
 
 private

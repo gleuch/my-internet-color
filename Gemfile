@@ -13,9 +13,9 @@ gem 'mysql2',                   '0.3.16',     require: false
 # gem 'sinatra-r18n',             '1.1.11'
 
 # Models ----------------------------------------------------------------------
-gem 'activerecord',             '4.1.5'
+gem 'activerecord',             '4.1.6'
 # gem 'sinatra-activerecord',     '2.0.2'
-gem 'activesupport',            '4.1.5'
+gem 'activesupport',            '4.1.6'
 gem 'paperclip',                '4.2.0'
 gem 'friendly_id',              '5.0.4'
 
@@ -29,7 +29,9 @@ gem 'friendly_id',              '5.0.4'
 
 # Other Helpers ---------------------------------------------------------------
 gem 'addressabler',             '0.1.1',      git: 'https://github.com/gleuch/addressabler.git'
-gem 'geocoder',                 '1.2.4'
+gem 'geocoder',                 '1.2.5'
+gem 'color',                    '1.7.1'
+gem 'webshot',                  '0.0.7'
 
 # API Intgrations -------------------------------------------------------------
 # gem 'twitter',                  '5.11.0'

@@ -7,7 +7,7 @@ module Uuidable
 
   def generate_uuid(force=false)
     if self.uuid.blank? || !!force
-      self.uuid = SecureRandom.uuid[0,8]
+      self.uuid = SecureRandom.uuid[0,12]
       generate_uuid(true) if self.class.where(uuid: self.uuid).count > 0
     end
   end
