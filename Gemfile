@@ -5,7 +5,6 @@ source 'https://rubygems.org'
 gem 'rack',                     '1.5.2'
 gem 'rake',                     '10.3.2'
 gem 'mysql2',                   '0.3.16',     require: false
-# gem 'redis',                    '3.0.5'
 
 # Sinatra Helpers -------------------------------------------------------------
 # gem 'sinatra',                  '1.4.5'
@@ -33,6 +32,7 @@ gem 'addressabler',             '0.1.1',      git: 'https://github.com/gleuch/ad
 gem 'geocoder',                 '1.2.4'
 
 # API Intgrations -------------------------------------------------------------
+# gem 'twitter',                  '5.11.0'
 # gem 'aws-sdk',                  '1.52.0'
 
 # Queue -----------------------------------------------------------------------

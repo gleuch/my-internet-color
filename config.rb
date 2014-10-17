@@ -10,7 +10,7 @@ DEBUG     = false unless defined?(DEBUG)
 
 
 # REQUIRE MODULES/GEMS
-%w{yaml json active_record active_support/all addressabler paperclip friendly_id geocoder geocoder/models/active_record mysql2}.each{|r| require r}
+%w{yaml json active_record active_support/all addressabler paperclip friendly_id geocoder geocoder/models/active_record mysql2 sidekiq}.each{|r| require r}
 
 # INITIALIZERS
 Dir.glob("#{APP_ROOT}/initializers/*.rb").each{|r| require r}

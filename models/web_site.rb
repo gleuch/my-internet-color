@@ -10,18 +10,16 @@ class WebSite < ActiveRecord::Base
   #
   enum status: {
     deleted:      0,
-    pending:      1,
-    located:      2,
-    colored:      3,
-    not_found:    11,
-    not_located:  12,
-    not_colored:  13,
+    active:       1,
+    hidden:       2
   }
 
 
   # Associations --------------------------------------------------------------
 
   has_many :browse_histories
+
+  belongs_to :web_site_location, counter_cache: true
 
 
   # Validations & Callbacks ---------------------------------------------------
@@ -34,6 +32,8 @@ class WebSite < ActiveRecord::Base
 
   # Scopes --------------------------------------------------------------------
 
+  scope :located, -> { where(located: true) }
+  scope :colored, -> { where(colored: true) }
   default_scope -> { where('status > ?', 0) }
 
 
@@ -42,6 +42,7 @@ class WebSite < ActiveRecord::Base
 
   # Methods -------------------------------------------------------------------
 
+  def uri; @@uri ||= Addressable::URI.parse(self.url); end
 
 
 private
@@ -53,7 +54,7 @@ private
   end
 
   def queue_processing
-    #
+    
   end
 
 end

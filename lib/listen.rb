@@ -1,12 +1,24 @@
+#
+# My Internet Color
+# a piece by @gleuch <http://gleu.ch>
+# (c)2014, all rights reserved
+#
+# -----------------------------------------------------------------------------
+#
+# Listener App
+# - opens port, listens to url requests from browser extension
+#
+#
+
+
 APP_ROOT = File.expand_path('..', File.dirname(__FILE__))
 DEBUG = false
 TIME_START = Time.now
 
 require File.join(APP_ROOT, 'config.rb')
-
-
 require 'socket'
 require 'json'
+
 
 # Open server, wait for requests
 server = TCPServer.open(2000)
@@ -16,6 +28,7 @@ loop do
     # Get request header
     req = client.gets.chomp
 
+    # Create response based on status of browse history save
     resp = begin
       rgx = /^[A-Z]+\s\/\?(.*)\sHTTP\/1\.1$/
 
