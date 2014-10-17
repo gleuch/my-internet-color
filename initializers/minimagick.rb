@@ -1,3 +1,5 @@
+# Modified from https://gist.github.com/awesome/9964231
+
 module MiniMagick
   class Image
     def pixel_at(x, y)
