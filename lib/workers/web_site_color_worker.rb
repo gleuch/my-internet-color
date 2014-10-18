@@ -26,7 +26,7 @@ class WebSiteColorWorker
     return if site.blank?
 
     # Get tmp filename
-    fname = File.join(APP_ROOT, 'tmp', site.tmp_filename)
+    fname = File.join(APP_ROOT, 'tmp', [site.uuid, :png].join('.'))
 
     begin
       # Start webshot

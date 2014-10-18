@@ -11,10 +11,12 @@
 #
 
 
+# DEFAULT OPTIONS
 APP_ROOT = File.expand_path('..', File.dirname(__FILE__))
 DEBUG = false
 TIME_START = Time.now
 
+# LOAD CONFIG
 require File.join(APP_ROOT, 'config.rb')
 require 'socket'
 require 'json'

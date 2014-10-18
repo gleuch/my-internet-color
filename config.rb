@@ -41,3 +41,12 @@ APP_CONFIG = YAML::load(File.open("#{APP_ROOT}/secrets.yml"))[APP_ENV] rescue ni
 
 # REQUIRE DATABASE MODELS
 Dir.glob("#{APP_ROOT}/models/**/*.rb").each{|r| require r}
+
+# LOAD SIDEKIQ WORKERS
+Dir.glob("#{APP_ROOT}/lib/workers/*.rb").each{|r| require r}
+
+# LOAD SIDEKIQ CLIENT CONNECTION CONFIG
+Sidekiq.configure_client do |config|
+  config.redis = {namespace: 'mynetcolor', url: 'redis://localhost:6379/1'}
+end
+

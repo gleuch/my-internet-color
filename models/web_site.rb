@@ -27,7 +27,7 @@ class WebSite < ActiveRecord::Base
   validates :url, presence: true, format: {with: /\Ahttp(s)?:\/\//i}
 
   before_create :generate_host
-  after_create :queue_processing
+  after_commit :queue_processing, on: :create
 
 
   # Scopes --------------------------------------------------------------------
@@ -39,30 +39,38 @@ class WebSite < ActiveRecord::Base
 
   # Class Methods -------------------------------------------------------------
 
+  # Returns the average color for a given column
   def self.color_avg(v); where("#{v} IS NOT NULL").average(v).to_f; end
-  def self.avg_hex_color; ("%02x%02x%02x" % avg_rgb_color).upcase; end
+
+  # Returns the RGB color average
   def self.avg_rgb_color; [color_avg(:rgb_color_red), color_avg(:rgb_color_green), color_avg(:rgb_color_blue)]; end
+
+  # Returns the hex code for the RGB average color
+  def self.avg_hex_color; ("%02x%02x%02x" % avg_rgb_color).upcase; end
 
 
   # Methods -------------------------------------------------------------------
 
+  # Parse URL
   def uri; @@uri ||= Addressable::URI.parse(self.url); end
 
+  # RGB array
   def rgb_color; [self.rgb_color_red, self.rgb_color_green, self.rgb_color_blue]; end
-
-  def tmp_filename(ext=:png); [self.uuid, ext].join('.'); end
 
 
 private
 
+  # Store site url and domain tld info
   def generate_host
     uri = Addressable::URI.parse(self.url)
     self.site = uri.site
     self.domain_tld = [uri.domain,uri.tld].join('.')
   end
 
+  # Queue up jobs for getting location, color, etc.
   def queue_processing
-    
+    WebSiteLocateWorker.perform_async(self.uuid)
+    WebSiteColorWorker.perform_async(self.uuid)
   end
 
 end
