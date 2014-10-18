@@ -18,8 +18,7 @@ TIME_START = Time.now
 
 # LOAD CONFIG
 require File.join(APP_ROOT, 'config.rb')
-require 'socket'
-require 'json'
+%w{json socket}.each{|r| require r}
 
 
 # Open server, wait for requests
@@ -40,9 +39,16 @@ loop do
       # Parse URL, add to browse history
       params = Addressable::URI.parse(req.gsub(rgx, 'http://localhost/?\1')).query_values rescue nil
       raise 'InvalidParams' unless params.present?
-      
-      hist = BrowseHistory.add(params['url'], params['ip'])
+
+      # Base64 unencoded unescaped url string
+      decodedUrl = Addressable::URI::unescape(Addressable::URI.unencode(Base64.decode64(params['url']))) rescue nil
+      raise 'InvalidUrl' if decodedUrl.blank?
+
+      # Attempt to add to browse history
+      hist = BrowseHistory.add(decodedUrl, params['ip'])
       raise 'NotSaved' unless hist.present?
+
+      puts "Added: #{hist.web_site.url}"
 
       {success: true, url: params['url']}
 
@@ -53,7 +59,7 @@ loop do
     resp = resp.to_json
 
     # Return request status
-    client.puts ["HTTP/1.1 200 OK","Date: #{Time.now.strftime('%a, %d %b %Y %H:%M:%S %Z')}","Server: MyInternetColor/1.0","Content-Type: text/html; charset=utf-8","Content-Length: #{resp.length}\r\n\r\n"].join("\r\n")
+    client.puts ["HTTP/1.1 200 OK","Date: #{Time.now.strftime('%a, %d %b %Y %H:%M:%S %Z')}","Server: MyInternetColor/1.0","Content-Type: image/png; charset=utf-8","Content-Length: #{resp.length}\r\n\r\n"].join("\r\n")
     client.puts resp
     client.close
   end
