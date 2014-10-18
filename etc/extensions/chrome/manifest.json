@@ -1,0 +1,22 @@
+{
+    "author": "Greg Leuch",
+    "background": {
+        "persistent": true,
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "description": "DEVELOPMENT",
+    "homepage_url": "https://github.com/gleuch/my-internet-color",
+    "icons": {
+        "128": "icon128.png"
+    },
+    "manifest_version": 2,
+    "name": "My Internet Color",
+    "permissions": [
+        "webRequest",
+        "<all_urls>"
+    ],
+    "short_name": "MyNetColor",
+    "version": "0.1"
+}
