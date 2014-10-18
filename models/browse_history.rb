@@ -12,7 +12,7 @@ class BrowseHistory < ActiveRecord::Base
 
   # Associations --------------------------------------------------------------
 
-  belongs_to :web_site, counter_cache: true
+  belongs_to :web_page, counter_cache: true
 
 
   # Validations & Callbacks ---------------------------------------------------
@@ -28,10 +28,10 @@ class BrowseHistory < ActiveRecord::Base
   def self.add(url, ip=nil)
     return false if url.blank?
 
-    site = WebSite.where('LOWER(url) = ?', url.downcase).first_or_create{|ws| ws.url = url}# rescue nil
-    return false if site.new_record?
+    page = WebPage.where('LOWER(url) = ?', url.downcase).first_or_create{|ws| ws.url = url}# rescue nil
+    return false if page.new_record?
 
-    BrowseHistory.create(web_site_id: site.id, ip_address: ip)
+    BrowseHistory.create(web_page_id: page.id, ip_address: ip)
   end
 
 

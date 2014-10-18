@@ -5,13 +5,13 @@
 #
 # -----------------------------------------------------------------------------
 #
-# Web Site Color Worker, for Sidekiq
-# - takes screenshot of web site url, determined singular pixel color
+# Web Page Color Worker, for Sidekiq
+# - takes screenshot of web page url, determined singular pixel color
 #
 #
 
 
-class WebSiteColorWorker
+class WebPageColorWorker
 
   include Sidekiq::Worker
 
@@ -21,27 +21,27 @@ class WebSiteColorWorker
   end
 
   def color(uuid)
-    # Find web site
-    site = WebSite.find(uuid) rescue nil
-    return if site.blank?
+    # Find web page
+    page = WebPage.find(uuid) rescue nil
+    return if page.blank?
 
     # Get tmp filename
-    fname = File.join(APP_ROOT, 'tmp', [site.uuid, :png].join('.'))
+    fname = File.join(APP_ROOT, 'tmp', [page.uuid, :png].join('.'))
 
     begin
       # Start webshot
       shot = Webshot::Screenshot.instance#(user_agent: CRAWLER_USER_AGENT)
 
       # Capture
-      shot.capture(site.url, fname, width: 1, height: 1, quality: 100)
+      shot.capture(page.url, fname, width: 1, height: 1, quality: 100)
 
       # Process for color
       img = MiniMagick::Image.open(fname)
       hex = img.pixel_at(0,0).upcase.gsub(/^\#/,'')
       rgb = Color::RGB.from_html(hex)
 
-      # Update web site
-      site.update(colored: true, hex_color: hex, rgb_color_red: rgb.red, rgb_color_green: rgb.green, rgb_color_blue: rgb.blue)
+      # Update web page
+      page.update(colored: true, hex_color: hex, rgb_color_red: rgb.red, rgb_color_green: rgb.green, rgb_color_blue: rgb.blue)
 
     rescue => err
       puts "Error: #{err.inspect}"

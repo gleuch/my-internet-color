@@ -1,7 +1,7 @@
-class CreateWebSiteLocations < ActiveRecord::Migration
+class CreateWebPageLocations < ActiveRecord::Migration
 
   def change
-    create_table :web_site_locations do |t|
+    create_table :web_page_locations do |t|
       t.string      :uuid
 
       # Site/domain info
@@ -20,13 +20,13 @@ class CreateWebSiteLocations < ActiveRecord::Migration
       t.integer     :area_code
 
       # Statuses
-      t.integer     :web_sites_count,           default: 0
+      t.integer     :web_pages_count,           default: 0
       t.integer     :status,                    default: 0
       t.timestamps
     end
 
-    add_index :web_site_locations, [:uuid], unique: true
-    add_index :web_site_locations, [:ip_address], unique: true
+    add_index :web_page_locations, [:uuid], unique: true
+    add_index :web_page_locations, [:ip_address], unique: true
   end
 
 end

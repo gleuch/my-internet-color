@@ -1,4 +1,4 @@
-class WebSiteLocation < ActiveRecord::Base
+class WebPageLocation < ActiveRecord::Base
 
   # Variables & Includes ------------------------------------------------------
 
@@ -13,7 +13,7 @@ class WebSiteLocation < ActiveRecord::Base
 
   # Associations --------------------------------------------------------------
 
-  has_many :web_sites
+  has_many :web_pages
 
 
   # Validations & Callbacks ---------------------------------------------------

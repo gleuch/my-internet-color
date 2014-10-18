@@ -48,7 +48,7 @@ loop do
       hist = BrowseHistory.add(decodedUrl, params['ip'])
       raise 'NotSaved' unless hist.present?
 
-      puts "Added: #{hist.web_site.url}"
+      puts "Added: #{hist.web_page.url}"
 
       {success: true, url: params['url']}
 

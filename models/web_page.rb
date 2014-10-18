@@ -1,4 +1,4 @@
-class WebSite < ActiveRecord::Base
+class WebPage < ActiveRecord::Base
 
   # Variables & Includes ------------------------------------------------------
 
@@ -19,7 +19,7 @@ class WebSite < ActiveRecord::Base
 
   has_many :browse_histories
 
-  belongs_to :web_site_location, counter_cache: true
+  belongs_to :web_page_location, counter_cache: true
 
 
   # Validations & Callbacks ---------------------------------------------------
@@ -69,8 +69,8 @@ private
 
   # Queue up jobs for getting location, color, etc.
   def queue_processing
-    WebSiteLocateWorker.perform_async(self.uuid)
-    WebSiteColorWorker.perform_async(self.uuid)
+    WebPageLocateWorker.perform_async(self.uuid)
+    WebPageColorWorker.perform_async(self.uuid)
   end
 
 end
