@@ -29,6 +29,11 @@ class WebPageColorWorker
     fname = File.join(APP_ROOT, 'tmp', [web_page.uuid, :png].join('.'))
 
     begin
+      puts "[START] #{web_page.uuid} (#{web_page.url})"
+
+      # Configure Capybara/Poltergeist/PhantomJS
+      shot.page.driver.headers = {"User-Agent" => CRAWLER_USER_AGENT}
+
       # Capture
       s = shot.capture(web_page.url, fname, width: 1, height: 1, quality: 100)
 
@@ -41,7 +46,7 @@ class WebPageColorWorker
       web_page.update(colored: true, hex_color: hex, rgb_color_red: rgb.red, rgb_color_green: rgb.green, rgb_color_blue: rgb.blue)
 
     rescue => err
-
+      puts "[ERROR] #{web_page.uuid} (#{web_page.url}): #{err.to_s}"
       # Decide whether to raise error (allow sidekiq retry again later)
       case err.to_s
         when /time(ed\s)?out|phantomjs\sclient\sdied/i
@@ -95,9 +100,6 @@ private
 
       # Load webshot
       @@shot = Webshot::Screenshot.instance
-
-      # Configure Capybara/Poltergeist/PhantomJS
-      @@shot.page.driver.headers = {"User-Agent" => CRAWLER_USER_AGENT}
 
       # Set poltergeist_billy as capybara driver
       Capybara.current_driver = :poltergeist_billy
