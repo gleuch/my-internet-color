@@ -17,8 +17,8 @@ DEBUG = false
 TIME_START = Time.now
 
 # LOAD CONFIG
+%w{socket}.each{|r| require r}
 require File.join(APP_ROOT, 'config.rb')
-%w{json socket}.each{|r| require r}
 
 
 # Open server, wait for requests

@@ -17,6 +17,7 @@ DEBUG = false
 TIME_START = Time.now
 
 # LOAD CONFIG
+%w{color geocoder billy webshot}.each{|r| require r}
 require File.join(APP_ROOT, 'config.rb')
 
 # LOAD SIDEKIQ SERVER CONNECTION CONFIG
