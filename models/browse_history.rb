@@ -20,7 +20,8 @@ class BrowseHistory < ActiveRecord::Base
 
   # Scopes --------------------------------------------------------------------
 
-  default_scope -> { where('status > ?', 0) }
+  scope :days, ->(n) { where("#{self.table_name}.created_at >= ?", Date.today - (n-1).days)}
+  default_scope -> { where("#{self.table_name}.status > ?", 0) }
 
 
   # Class Methods -------------------------------------------------------------
@@ -33,6 +34,20 @@ class BrowseHistory < ActiveRecord::Base
 
     BrowseHistory.create(web_page_id: page.id, ip_address: ip)
   end
+
+
+  def self.color_avg(v); where("#{WebPage.table_name}.#{v} IS NOT NULL").average(v).to_f; end
+
+  def self.avg_rgb_color
+    obj = joins(:web_page).where("#{WebPage.table_name}.colored = ?",true)
+    [obj.color_avg(:rgb_color_red), obj.color_avg(:rgb_color_green), obj.color_avg(:rgb_color_blue)]
+  end
+
+  def self.avg_hex_color
+    ("%02x%02x%02x" % avg_rgb_color).upcase
+  end
+
+
 
 
   # Methods -------------------------------------------------------------------

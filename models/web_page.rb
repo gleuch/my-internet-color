@@ -34,13 +34,13 @@ class WebPage < ActiveRecord::Base
 
   scope :located, -> { where(located: true) }
   scope :colored, -> { where(colored: true) }
-  default_scope -> { where('status > ?', 0) }
+  default_scope -> { where("#{self.table_name}.status > ?", 0) }
 
 
   # Class Methods -------------------------------------------------------------
 
   # Returns the average color for a given column
-  def self.color_avg(v); where("#{v} IS NOT NULL").average(v).to_f; end
+  def self.color_avg(v); where("#{self.table_name}.#{v} IS NOT NULL").average(v).to_f; end
 
   # Returns the RGB color average
   def self.avg_rgb_color; [color_avg(:rgb_color_red), color_avg(:rgb_color_green), color_avg(:rgb_color_blue)]; end
