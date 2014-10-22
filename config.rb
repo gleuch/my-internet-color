@@ -28,7 +28,7 @@ CRAWLER_USER_AGENT = "WhatColor.IsTheInter.net/#{CRAWLER_VERSION} (http://whatco
 
 
 # REQUIRE MODULES/GEMS
-%w{active_record active_support/all addressabler friendly_id json mysql2 sidekiq yaml}.each{|r| require r}
+%w{active_record active_support active_support/all addressabler friendly_id json mysql2 sidekiq yaml}.each{|r| require r}
 
 # INITIALIZERS
 Dir.glob("#{APP_ROOT}/initializers/*.rb").each{|r| require r}

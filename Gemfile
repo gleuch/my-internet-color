@@ -32,8 +32,10 @@ gem 'friendly_id',              '5.0.4'
 gem 'addressabler',             '0.1.1',      git: 'https://github.com/gleuch/addressabler.git'
 gem 'geocoder',                 '1.2.5',      require: false
 gem 'color',                    '1.7.1',      require: false
-gem 'webshot',                  '0.0.7',      require: false
 gem 'puffing-billy',            '0.2.3',      require: false
+gem 'poltergeist',              '1.5.1',      require: false
+gem 'mini_magick',              '3.8.1',      require: false
+# gem 'faye-websocket',''
 
 # API Intgrations -------------------------------------------------------------
 # gem 'twitter',                  '5.11.0'

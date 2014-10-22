@@ -17,8 +17,9 @@ DEBUG = false
 TIME_START = Time.now
 
 # LOAD CONFIG
-%w{color geocoder billy webshot}.each{|r| require r}
+%w{billy capybara/poltergeist capybara/dsl color geocoder mini_magick singleton}.each{|r| require r}
 require File.join(APP_ROOT, 'config.rb')
+require File.join(APP_ROOT, 'lib/modules/webshot.rb')
 
 # LOAD SIDEKIQ SERVER CONNECTION CONFIG
 Sidekiq.configure_server do |config|
