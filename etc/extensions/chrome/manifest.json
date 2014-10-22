@@ -7,7 +7,9 @@
         ]
     },
     "browser_action": {
-      "default_icon": "browseraction38.png"
+      "default_icon": {
+        "38": "browseraction38.png"
+      }
     },
     "description": "DEVELOPMENT",
     "homepage_url": "https://github.com/gleuch/my-internet-color",
