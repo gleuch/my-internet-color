@@ -14,6 +14,10 @@
 var MyInternetColor = function() {
   // todo, use localstorage to store urls
   this.started = false;
+  this.check_intv = null;
+  this.storage_url = 'http://localhost:2000';
+  this.canvas_id = 'netcolorcanvas';
+
   this.start();
 };
 
@@ -36,6 +40,16 @@ MyInternetColor.prototype.start = function() {
   },
   []);
 
+  // add canvas element
+  var c = document.createElement('canvas')
+  c.setAttribute('id', _t.canvas_id);
+  c.setAttribute('width', 38);
+  c.setAttribute('height', 38);
+  document.body.appendChild(c);
+
+  _t.check_intv = setInterval(function() { _t.queryTodayColor(); }, 2 * 60 * 1000);
+  _t.queryTodayColor();
+
   _t.started = true;
 };
 
@@ -45,7 +59,7 @@ MyInternetColor.prototype.addToHistory = function(url) {
   img.onError = function() {
     console.log('Unable to touch ' + this.src);
   };
-  img.src = 'http://localhost:2000/?url=' + this.encodeUrl(url);
+  img.src = this.storage_url + '?url=' + this.encodeUrl(url);
 
 };
 
@@ -68,6 +82,27 @@ MyInternetColor.prototype.isValidRequest = function(url,ip) {
   return true;
 };
 
+// Query a result for today's colors
+MyInternetColor.prototype.queryTodayColor = function() {
+  var _t = this, xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function() {
+    if (xmlhttp.readyState == 4 ) {
+      if (xmlhttp.status == 200) {
+        var data = JSON.parse(xmlhttp.responseText), c = document.getElementById(_t.canvas_id), ctx = c.getContext('2d');
+        ctx.fillStyle = '#' + data.hex_color;
+        ctx.fillRect(0,0,38,38);
+        chrome.browserAction.setIcon({imageData: {'38' : ctx.getImageData(0,0,38,38)}});
+        chrome.browserAction.setTitle({title: '#' + data.hex_color + ' (' + data.pages_count + ' pages today, ' + data.pages_with_color_count + ' w/ color)'});
+      }
+    }
+  };
+  xmlhttp.open("GET", this.storage_url + '?color=1', true);
+  xmlhttp.send();
+}
+
+
+// URLs to ignore
 MyInternetColor.prototype.blacklistUrls = [
   // chrome:about, default start page
   /^http(s)?\:\/\/(www\.)?google\.com\/(_\/chrome\/newtab|webhp)/i,
