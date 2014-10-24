@@ -90,7 +90,7 @@ GEM
       redis (~> 3.0, >= 3.0.4)
     rerun (0.10.0)
       listen (~> 2.7, >= 2.7.3)
-    sidekiq (3.2.5)
+    sidekiq (3.2.6)
       celluloid (= 0.15.2)
       connection_pool (>= 2.0.0)
       json
@@ -123,4 +123,4 @@ DEPENDENCIES
   rake (= 10.3.2)
   redis (= 3.1.0)
   rerun (= 0.10.0)
-  sidekiq (= 3.2.5)
+  sidekiq (= 3.2.6)

@@ -43,7 +43,7 @@ gem 'mini_magick',              '3.8.1',      require: false
 
 # Queue -----------------------------------------------------------------------
 gem 'redis',                    '3.1.0'
-gem 'sidekiq',                  '3.2.5'
+gem 'sidekiq',                  '3.2.6'
 
 # # Development, etc. -----------------------------------------------------------
 # group :development do

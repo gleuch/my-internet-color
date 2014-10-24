@@ -17,6 +17,7 @@ class WebPageLocateWorker
 
 
   def perform(uuid)
+    raise "NoInternetConnection" if File.exists?(File.join(APP_ROOT, 'tmp', 'connection.txt'))
     locate(uuid)
   end
 

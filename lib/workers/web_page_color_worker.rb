@@ -16,6 +16,7 @@ class WebPageColorWorker
   include Sidekiq::Worker
 
   def perform(uuid)
+    raise "NoInternetConnection" if File.exists?(File.join(APP_ROOT, 'tmp', 'connection.txt'))
     color(uuid)
   end
 
@@ -50,14 +51,16 @@ class WebPageColorWorker
       case err.to_s
         when /broken\spipe/i
           @@shot = nil
-          raise "WorkerTimeoutError"
-        when /time(ed\s)?out|phantomjs\sclient\sdied|broken\spipe|deadclient|browsererror|timeouterror|javascripterror|connection\sreset|stream\sclosed/i
-          raise "WorkerTimeoutError"
-        when NoMethodError, Capybara::Poltergeist::BrowserError, Capybara::Poltergeist::DeadClient, Capybara::Poltergeist::TimeoutError, Capybara::Poltergeist::JavascriptError
-          raise "WorkerError"
-        else
-          puts err.backtrace.to_yaml,"",""
+          # raise "WorkerTimeoutError"
+        # when /time(ed\s)?out|phantomjs\sclient\sdied|broken\spipe|deadclient|browsererror|timeouterror|javascripterror|connection\sreset|stream\sclosed/i
+        #   raise "WorkerTimeoutError"
+        # when NoMethodError, Capybara::Poltergeist::BrowserError, Capybara::Poltergeist::DeadClient, Capybara::Poltergeist::TimeoutError, Capybara::Poltergeist::JavascriptError
+        #   raise "WorkerError"
+        # else
+        #   puts err.backtrace.to_yaml,"",""
       end
+
+      raise err
 
     # Make sure tmp file is removed
     ensure
