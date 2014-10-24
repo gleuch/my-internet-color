@@ -20,7 +20,11 @@ class BrowseHistory < ActiveRecord::Base
 
   # Scopes --------------------------------------------------------------------
 
+  scope :yesterday, -> { on_date(Date.today-1.day)}
+  scope :today, -> { on_date(Date.today) }
+  scope :on_date, ->(n) { where("date(#{self.table_name}.created_at) = ?", n) }
   scope :days, ->(n) { where("#{self.table_name}.created_at >= ?", Date.today - (n-1).days)}
+  scope :with_color, -> { joins(:web_page).where("#{WebPage.table_name}.colored = ?",true) }
   default_scope -> { where("#{self.table_name}.status > ?", 0) }
 
 

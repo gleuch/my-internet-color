@@ -42,11 +42,11 @@ loop do
 
       if params['color'].present?
         ctype = 'text/plain'
-        d = params['days'] rescue nil
-        d ||= 1
-        obj = BrowseHistory.days(d)
-
-        {hex_color: obj.avg_hex_color, days: d, pages_count: obj.count, pages_with_color_count: obj.joins(:web_page).where("#{WebPage.table_name}.colored = ?",true).count}
+        {
+          hex_color: BrowseHistory.today.avg_hex_color,
+          pages_count: BrowseHistory.today.count,
+          pages_with_color_count: BrowseHistory.today.with_color.count
+        }
         
       else
         # Base64 unencoded unescaped url string

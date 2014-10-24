@@ -2,7 +2,7 @@ class CreateBrowseHistories < ActiveRecord::Migration
 
   def change
     create_table :browse_histories do |t|
-      t.string      :web_page_id
+      t.integer     :web_page_id
       t.string      :ip_address
       t.integer     :status,          default: 1
       t.datetime    :created_at

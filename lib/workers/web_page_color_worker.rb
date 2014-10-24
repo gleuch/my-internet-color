@@ -25,7 +25,7 @@ class WebPageColorWorker
     return if web_page.blank?
 
     # Get tmp filename
-    fname = File.join(APP_ROOT, 'tmp', [web_page.uuid, :png].join('.'))
+    fname = File.join(APP_ROOT, 'tmp/screenshots', "#{web_page.domain_tld}-#{web_page.uuid}.png")
 
     begin
       puts "[START] #{web_page.uuid} (#{web_page.url})"
@@ -48,6 +48,9 @@ class WebPageColorWorker
 
       # Decide whether to raise error (allow sidekiq retry again later)
       case err.to_s
+        when /broken\spipe/i
+          @@shot = nil
+          raise "WorkerTimeoutError"
         when /time(ed\s)?out|phantomjs\sclient\sdied|broken\spipe|deadclient|browsererror|timeouterror|javascripterror|connection\sreset|stream\sclosed/i
           raise "WorkerTimeoutError"
         when NoMethodError, Capybara::Poltergeist::BrowserError, Capybara::Poltergeist::DeadClient, Capybara::Poltergeist::TimeoutError, Capybara::Poltergeist::JavascriptError
@@ -66,10 +69,7 @@ class WebPageColorWorker
 private
 
   def shot
-    unless defined?(@@shot)
-      @@shot ||= Webshot::Screenshot.instance
-    end
-    @@shot
+    @@shot ||= Webshot::Screenshot.instance
   end
 
 end
