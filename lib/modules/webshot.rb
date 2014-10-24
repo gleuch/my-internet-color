@@ -85,12 +85,8 @@ module Webshot
       user_agent = opts.fetch(:user_agent, Webshot.user_agent)
 
       # Browser settings
-      page.driver.resize(1024, 1024)
+      page.driver.resize(1024, 1024) # TODO , eventually track my actual browser window size
       page.driver.headers = {"User-Agent" => CRAWLER_USER_AGENT}
-      # page.driver.resize(width, height)
-      # page.driver.headers = {
-      #   "User-Agent" => user_agent,
-      # }
     end
 
     # Captures a screenshot of +url+ saving it to +path+.
@@ -111,15 +107,15 @@ module Webshot
       sleep opts[:timeout] || 1
 
       # Check status code
-      status_code = page.driver.status_code.to_s.chomp
-      err_code = nil
-      err_code = true if status_code.blank? || status_code == 'false' || status_code != '200'
-      err_code = false if status_code.match(/success|true/i)
-
-      raise "InvalidResponseCode #{status_code}" if err_code
+      # status_code = page.driver.status_code.to_s.chomp
+      # err_code = nil
+      # err_code = true if status_code.blank? || status_code == 'false' || status_code != '200'
+      # err_code = false if status_code.match(/success|true/i)
+      # raise "InvalidResponseCode #{status_code}" if err_code
 
       tmp = Tempfile.new(["webshot-#{SecureRandom.hex(12)}", ".png"])
       tmp.close
+
       begin
         # Save screenshot to file
         page.driver.save_screenshot(tmp.path, full: true)
@@ -129,6 +125,7 @@ module Webshot
         if block_given?
           # Customize MiniMagick options
           yield thumb
+
         else
           thumb.combine_options do |c|
             c.thumbnail "#{width}x"
