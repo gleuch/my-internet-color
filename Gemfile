@@ -33,7 +33,7 @@ gem 'addressabler',             '0.1.1',      git: 'https://github.com/gleuch/ad
 gem 'geocoder',                 '1.2.5',      require: false
 gem 'color',                    '1.7.1',      require: false
 gem 'puffing-billy',            '0.2.3',      require: false
-gem 'poltergeist',              '1.5.1',      require: false
+gem 'poltergeist',                            require: false, git: 'https://github.com/teampoltergeist/poltergeist.git'
 gem 'mini_magick',              '3.8.1',      require: false
 # gem 'faye-websocket',''
 
