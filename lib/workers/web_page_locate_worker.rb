@@ -17,7 +17,9 @@ class WebPageLocateWorker
 
 
   def perform(uuid)
-    raise "NoInternetConnection" if File.exists?(File.join(APP_ROOT, 'tmp', 'connection.txt'))
+    # Retry again in 1 hour if connection worker detects no connection or manually paused.
+    WebPageLocateWorker.perform_in(1.hour, uuid) and return if File.exists?(File.join(APP_ROOT, 'tmp', 'connection.txt')) || File.exists?(File.join(APP_ROOT, 'tmp', 'paused.txt'))
+
     locate(uuid)
   end
 

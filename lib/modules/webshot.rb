@@ -23,7 +23,7 @@ module Webshot
   # Capibara setup
   def self.capybara_setup!
     Billy.configure do |c|
-      c.cache = true
+      c.cache = false
       c.cache_request_headers = false
       c.path_blacklist = []
       c.persist_cache = true
@@ -56,6 +56,8 @@ module Webshot
       Capybara::Poltergeist::Driver.new(app, {
         # Raise JavaScript errors to Ruby
         js_errors: false,
+        debug: false,
+        inspector: false,
         # Additional command line options for PhantomJS
         phantomjs_options: [
           '--ignore-ssl-errors=yes',
@@ -80,13 +82,12 @@ module Webshot
 
     def initialize(opts = {})
       Webshot.capybara_setup!
-      width  = opts.fetch(:width, Webshot.width)
-      height = opts.fetch(:height, Webshot.height)
+      browser_width  = opts.fetch(:width, Webshot.width)
+      browser_height = opts.fetch(:height, Webshot.height)
       user_agent = opts.fetch(:user_agent, Webshot.user_agent)
 
       # Browser settings
-      page.driver.resize(1024, 1024) # TODO , eventually track my actual browser window size
-      page.driver.headers = {"User-Agent" => CRAWLER_USER_AGENT}
+      page.driver.resize(browser_width, browser_height)
     end
 
     # Captures a screenshot of +url+ saving it to +path+.
@@ -96,22 +97,22 @@ module Webshot
       height  = opts.fetch(:height, 90)
       gravity = opts.fetch(:gravity, "north")
       quality = opts.fetch(:quality, 85)
+      browser_width = opts.fetch(:browser_width, Webshot.width)
+      browser_height = opts.fetch(:browser_height, Webshot.height)
 
       # Reset session before visiting url
       Capybara.reset_sessions! rescue nil
+
+      # Ensure we are passing desired params
+      page.driver.headers = {"User-Agent" => CRAWLER_USER_AGENT}
+      page.driver.browser.js_errors = false
+      page.driver.resize(browser_width, browser_height)
 
       # Open page
       visit url
 
       # Timeout
-      sleep opts[:timeout] || 1
-
-      # Check status code
-      # status_code = page.driver.status_code.to_s.chomp
-      # err_code = nil
-      # err_code = true if status_code.blank? || status_code == 'false' || status_code != '200'
-      # err_code = false if status_code.match(/success|true/i)
-      # raise "InvalidResponseCode #{status_code}" if err_code
+      sleep opts[:timeout] || 3
 
       tmp = Tempfile.new(["webshot-#{SecureRandom.hex(12)}", ".png"])
       tmp.close
