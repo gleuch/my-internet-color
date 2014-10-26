@@ -22,7 +22,8 @@ class BrowseHistory < ActiveRecord::Base
 
   scope :yesterday, -> { on_date(Date.today-1.day)}
   scope :today, -> { on_date(Date.today) }
-  scope :on_date, ->(n) { where("date(#{self.table_name}.created_at) = ?", n) }
+  scope :on_date, ->(d) { where("date(#{self.table_name}.created_at) = ?", d) }
+  scope :between_dates, ->(s,e) { where("date(#{self.table_name}.created_at) >= ? and date(#{self.table_name}.created_at) <= ?", s,e) }
   scope :days, ->(n) { where("#{self.table_name}.created_at >= ?", Date.today - (n-1).days)}
   scope :with_color, -> { joins(:web_page).where("#{WebPage.table_name}.colored = ?",true) }
   default_scope -> { where("#{self.table_name}.status > ?", 0) }

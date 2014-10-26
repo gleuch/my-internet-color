@@ -35,6 +35,7 @@ gem 'color',                    '1.7.1',      require: false
 gem 'puffing-billy',            '0.2.3',      require: false
 gem 'poltergeist',                            require: false, git: 'https://github.com/teampoltergeist/poltergeist.git'
 gem 'mini_magick',              '3.8.1',      require: false
+gem 'svgen',                    '0.1.1',      require: false
 # gem 'faye-websocket',''
 
 # API Intgrations -------------------------------------------------------------

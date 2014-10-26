@@ -1,5 +1,12 @@
+# Cache-crap files
 .DS_Store
 ._*
+
+# Folders
+files/*
 tmp/
+
+# Config files
 database.yml
+sidekiq.yml
 secrets.yml
